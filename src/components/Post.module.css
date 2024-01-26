@@ -1,0 +1,53 @@
+.post {
+  background-color: var(--gray-800);
+  border-radius: 8px;
+  padding: 2.5rem;
+}
+
+.post + .post {
+  margin-top: 2rem;
+}
+
+.content {
+  line-height: 1.6;
+  color: var(--gray-300);
+  margin-top: 1.5rem;
+}
+
+.content p {
+  margin-top: 1rem;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postHeader time {
+  font-size: 0.875rem;
+  color: var(--gray-400);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorInfo strong{
+  color: var(-gray--100);
+  line-height: 1.6;
+}
+
+.authorInfo span{
+  font-size: 0.875rem;
+  color: var(--gray-400);
+  line-height: 1.6;
+}
