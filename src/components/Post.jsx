@@ -22,6 +22,16 @@ export function Post() {
           Nullam quis tincidunt urna. Quisque tincidunt gravida nulla, vel tincidunt mi imperdiet sit amet. Vivamus dignissim vehicula odio in semper.
         </p>
       </div>
+
+      <form className={styles.commentForm}>
+        <strong>Let your feedback</strong>
+
+        <textarea placeholder="Left a comment" />
+
+        <footer>
+          <button type="submit">Publish</button>
+        </footer>
+      </form>
     </article>
   )
 }
