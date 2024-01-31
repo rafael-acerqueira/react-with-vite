@@ -15,7 +15,10 @@ function App() {
       <main>
         <Post
           author="Eu"
+          avatarUrl="https://github.com/rafael-acerqueira.png"
+          role="Web Developer"
           content="Description comes here"
+          publishedAt={new Date("2024-01-31 08:25:00")}
         />
       </main>
     </div>

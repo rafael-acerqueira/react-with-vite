@@ -1,31 +1,51 @@
+import { format, formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+
 import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
+import { useState } from 'react'
 
-export function Post() {
+export function Post({
+  author,
+  avatarUrl,
+  role,
+  content,
+  publishedAt
+}) {
+
+  const [comments, setComment] = useState([1, 2])
+
+  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR
+  })
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true
+  })
+
+  function handleCreateNewComment() {
+    event.preventDefault()
+    setComment([...comments, comments.length + 1])
+  }
+
   return (
     <article className={styles.post}>
       <header className={styles.postHeader}>
         <div className={styles.author}>
-          <Avatar src="https://github.com/rafael-acerqueira.png" />
+          <Avatar src={avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Author</strong>
-            <span>Web Developer</span>
+            <strong>{author}</strong>
+            <span>{role}</span>
           </div>
         </div>
-        <time title="26 de Janeiro as 08:25" dateTime="2024-01-26 08:25:00">Publicado há 1h</time>
+        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
       </header>
 
-      <div className={styles.content}>
-        <p>
-        urabitur aliquam libero condimentum dui dapibus, sed ultricies nulla efficitur. Cras iaculis quam dolor, molestie rutrum enim consequat vitae. Maecenas euismod risus ac convallis pellentesque. Cras vitae quam cursus, condimentum risus eu, vulputate velit. Maecenas sed ullamcorper dui. Nulla condimentum turpis ex, ac ultrices arcu condimentum vel
-        </p>
-        <p>
-          Nullam quis tincidunt urna. Quisque tincidunt gravida nulla, vel tincidunt mi imperdiet sit amet. Vivamus dignissim vehicula odio in semper.
-        </p>
-      </div>
+      <div className={styles.content}>{content}</div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Let your feedback</strong>
 
         <textarea placeholder="Left a comment" />
@@ -36,9 +56,9 @@ export function Post() {
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {
+          comments.map(() => <Comment />)
+        }
       </div>
     </article>
   )
