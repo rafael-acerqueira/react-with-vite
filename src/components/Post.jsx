@@ -17,6 +17,8 @@ export function Post({
   const [comments, setComment] = useState([])
   const [newCommentText, setNewCommentText] = useState('')
 
+  const isNewCommentEmpty = newCommentText.length == 0
+
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR
   })
@@ -33,12 +35,17 @@ export function Post({
   }
 
   function handleNewCommentChange(event){
+    event.target.setCustomValidity('')
     setNewCommentText(event.target.value)
   }
 
   function deleteComment(content) {
     const newComments = comments.filter(comment => comment != content)
     setComment(newComments)
+  }
+
+  function handleNewCommentInvalid(event) {
+    event.target.setCustomValidity('Esse campo é obrigatório')
   }
 
   return (
@@ -68,10 +75,14 @@ export function Post({
           onChange={handleNewCommentChange}
           value={newCommentText}
           name="comment"
+          required
+          onInvalid={handleNewCommentInvalid}
         />
 
         <footer>
-          <button type="submit">Publish</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Publish
+          </button>
         </footer>
       </form>
 
