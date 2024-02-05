@@ -14,7 +14,8 @@ export function Post({
   publishedAt
 }) {
 
-  const [comments, setComment] = useState([1, 2])
+  const [comments, setComment] = useState([])
+  const [newCommentText, setNewCommentText] = useState('')
 
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR
@@ -25,9 +26,19 @@ export function Post({
     addSuffix: true
   })
 
-  function handleCreateNewComment() {
+  function handleCreateNewComment(event) {
     event.preventDefault()
-    setComment([...comments, comments.length + 1])
+    setComment([...comments, newCommentText])
+    setNewCommentText('')
+  }
+
+  function handleNewCommentChange(event){
+    setNewCommentText(event.target.value)
+  }
+
+  function deleteComment(content) {
+    const newComments = comments.filter(comment => comment != content)
+    setComment(newComments)
   }
 
   return (
@@ -40,7 +51,11 @@ export function Post({
             <span>{role}</span>
           </div>
         </div>
-        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}>
+            {publishedDateRelativeToNow
+        }</time>
       </header>
 
       <div className={styles.content}>{content}</div>
@@ -48,7 +63,12 @@ export function Post({
       <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Let your feedback</strong>
 
-        <textarea placeholder="Left a comment" />
+        <textarea
+          placeholder="Left a comment"
+          onChange={handleNewCommentChange}
+          value={newCommentText}
+          name="comment"
+        />
 
         <footer>
           <button type="submit">Publish</button>
@@ -57,7 +77,12 @@ export function Post({
 
       <div className={styles.commentList}>
         {
-          comments.map(() => <Comment />)
+          comments.map((comment, index) => (
+          <Comment
+            key={index}
+            content={comment}
+            onDeleteComment={deleteComment} />
+          ))
         }
       </div>
     </article>
